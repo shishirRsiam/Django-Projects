@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="max-w-4xl mx-auto p-6 bg-white shadow-xl rounded-lg mt-8">
+        
+        <!-- Page Title -->
+        <h1 class="text-3xl font-semibold text-teal-600 text-center mb-6">Loan Request</h1>
+        
+        <!-- Subheading -->
+        <h2 class="text-xl font-medium text-gray-700 text-center mb-4">Request your loan with us easily</h2>
+        
+        <!-- Transaction Table -->
+        <h3 class="text-2xl font-semibold text-gray-800 mb-6">Recent Transactions</h3>
+        
+        {% if transactions %}
+            <!-- Table to display all transactions -->
+            <table class="w-full table-auto">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-2 text-left">Transaction Date</th>
+                        <th class="px-4 py-2 text-left">Transaction Type</th>
+                        <th class="px-4 py-2 text-left">Amount</th>
+                        <th class="px-4 py-2 text-left">Status</th>
+                        <th class="px-4 py-2 text-left">After Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="border border-gray-300 px-4 py-2">{{ transaction.created_at|date:"d M Y - h:i:s A" }}</td>
+                            <td class="border border-gray-300 px-4 py-2">{{ transaction.transaction_type }}</td>
+                            <td class="border border-gray-300 px-4 py-2">${{ transaction.amount }}</td>
+                            <td class="border border-gray-300 px-4 py-2">
+                                {% if transaction.status %}
+                                    <span class="text-green-500">Completed</span>
+                                {% else %}
+                                    <span class="text-red-500">Pending</span>
+                                {% endif %}
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2">${{ transaction.after_transaction_balance }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-gray-500 mt-4">No transactions found.</p>
+        {% endif %}
+    </div>
+{% endblock %}

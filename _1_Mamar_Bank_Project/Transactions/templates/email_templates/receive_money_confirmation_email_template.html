@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Received Notification</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #fff;
+        }
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+            color: #ffde59;
+        }
+        .sub-header {
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+        .body {
+            margin-top: 20px;
+            line-height: 1.8;
+        }
+        .highlight {
+            color: #ffde59;
+            font-weight: bold;
+        }
+        .button {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 12px 24px;
+            font-size: 16px;
+            color: #312d2d;
+            background: #ffde59;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+        .button:hover {
+            background: #ffd42a;
+            color: #000;
+        }
+        .info-box {
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 30px;
+        }
+        .footer a {
+            color: #ffde59;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>Money Received!</h1>
+            <p class="sub-header">You have successfully received a payment.</p>
+        </div>
+
+        <!-- Body Section -->
+        <div class="body">
+            <p>Dear <strong>{{ recipient.first_name }} {{ recipient.last_name }}</strong>,</p>
+            <p>
+                We’re excited to inform you that you’ve received a payment of <span class="highlight">${{ transaction.amount }}</span> from <strong>{{ sender.first_name }} {{ sender.last_name }}</strong>.
+            </p>
+
+            <div class="info-box">
+                <h3>Transaction Details:</h3>
+                <ul>
+                    <li><strong>Sender Name:</strong> {{ sender.first_name }} {{ sender.last_name }} </li>
+                    <li><strong>Sender Account:</strong> {{ sender.account.account_no }}</li>
+                    <li><strong>Amount:</strong> ${{ transaction.amount }}</li>
+                    {% if transaction.description %}
+                        <li><strong>Note:</strong> {{ transaction.description }}</li>
+                    {% endif %}
+                    <li><strong>Transaction ID:</strong> {{ transaction.transaction_id }}</li>
+                    <li><strong>Date:</strong> {{ transaction.created_at|date:"d M Y - h:i:s A" }}</li>
+                    <li><strong>Your Updated Balance:</strong> ${{ recipient.account.balance }}</li>
+                </ul>
+            </div>
+
+            <p>
+                Thank you for banking with <span class="highlight">Mamar Bank</span>. 
+                If you have any questions or need assistance, feel free to contact our support team.
+            </p>
+
+            <p style="text-align: center;">
+                <a href="https://mamarbank.pythonanywhere.com/report/" class="button">View Account Statement</a>
+            </p>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="footer">
+            <p>&copy; 2024 Mamar Bank. All rights reserved.</p>
+            <p>
+                <a href="#">Privacy Policy</a> | 
+                <a href="#">Terms of Service</a>
+            </p>
+            <p>Need assistance? Contact us at <a href="mailto:your.mamarbank@gmail.com">your.mamarbank@gmail.com</a></p>
+        </div>
+    </div>
+</body>
+</html>

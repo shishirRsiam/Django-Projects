@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up | Mamar Bank{% endblock %}
+
+{% block content %}
+<div class="max-w-9xl mx-auto bg-white shadow-lg rounded-3xl p-8 pb-5 my-8">
+    <h2 class="text-3xl font-semibold text-indigo-600 text-center mb-6">Create Your Mamar Bank Account</h2>
+    
+    <!-- Display error messages if any -->
+    {% if error_msg %}
+        <div class="text-red-600 text-center mb-4">
+            <p>{{ error_msg }}</p>
+        </div>
+    {% endif %}
+
+    <!-- Sign Up Form -->
+    <form method="POST" class="space-y-6">
+        {% csrf_token %}
+
+        <!-- First Name and Last Name in one row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+                <input type="text" id="first_name" name="first_name" value="{{ request.POST.first_name|default_if_none:'' }}" required 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 shadow-sm">
+                {% if form_errors.first_name %}
+                <p class="text-red-500 text-sm mt-1">{{ form_errors.first_name }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                <input type="text" id="last_name" name="last_name" value="{{ request.POST.last_name|default_if_none:'' }}" required 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 shadow-sm">
+                {% if form_errors.last_name %}
+                <p class="text-red-500 text-sm mt-1">{{ form_errors.last_name }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        
+
+        <!-- NID and Date of Birth -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label for="nid_number" class="block text-sm font-medium text-gray-700">NID Number</label>
+                <input type="text" id="nid_number" name="nid_number" value="{{ request.POST.nid_number|default_if_none:'' }}" required 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 shadow-sm">
+                {% if form_errors.nid_number %}
+                <p class="text-red-500 text-sm mt-1">{{ form_errors.nid_number }}</p>
+                {% endif %}
+            </div>
+            <div>
+                <label for="birth_day" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                <input type="date" id="birth_day" name="birth_day" value="{{ request.POST.birth_day|default_if_none:'' }}" required 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 shadow-sm">
+                {% if form_errors.birth_day %}
+                    <p class="text-red-500 text-sm mt-1">{{ form_errors.birth_day }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        
+
+        <!-- Address Details in one row with multiple columns -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div>
+                <label for="street_address" class="block text-sm font-medium text-gray-700">Street Address</label>
+                <input type="text" id="street_address" name="street_address" value="{{ request.POST.street_address|default_if_none:'' }}" required 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 shadow-sm">
+            </div>
+
+            <div>
+                <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                <input type="text" id="city" name="city" value="{{ request.POST.city|default_if_none:'' }}" required 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 shadow-sm">
+            </div>
+
+            <div>
+                <label for="state" class="block text-sm font-medium text-gray-700">State</label>
+                <input type="text" id="state" name="state" value="{{ request.POST.state|default_if_none:'' }}" required 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 shadow-sm">
+            </div>
+
+            <div>
+                <label for="postal_code" class="block text-sm font-medium text-gray-700">Postal Code</label>
+                <input type="text" id="postal_code" name="postal_code" value="{{ request.POST.postal_code|default_if_none:'' }}" required 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 shadow-sm">
+            </div>
+        </div>
+
+        <!-- Example for Select Inputs -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label for="account_type" class="block text-sm font-medium text-gray-700">Account Type</label>
+                <select id="account_type" name="account_type" required 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 shadow-sm">
+                    <option value="Savings" {% if account_type == "Savings" %}selected{% endif %}>Savings</option>
+                    <option value="Checking" {% if account_type == "Checking" %}selected{% endif %}>Checking</option>
+                    <option value="Business" {% if account_type == "Business" %}selected{% endif %}>Business</option>
+                </select>
+            </div>
+            <div>
+                <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                <select id="gender" name="gender" required 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 shadow-sm">
+                    <option value="Male" {% if gender == "Male" %}selected{% endif %}>Male</option>
+                    <option value="Female" {% if gender == "Female" %}selected{% endif %}>Female</option>
+                    <option value="Other" {% if gender == "Other" %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Username and Email in one row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                <input type="text" id="username" name="username" value="{{ request.POST.username|default_if_none:'' }}" required 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 shadow-sm">
+            </div>
+
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="email" name="email" value="{{ request.POST.email|default_if_none:'' }}" required 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 shadow-sm">
+            </div>
+        </div>
+
+        <!-- Password and Confirm Password in one row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="password" name="password" required 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 shadow-sm">
+            </div>
+
+            <div>
+                <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" required 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 shadow-sm">
+            </div>
+        </div>
+
+        <!-- Accept Terms and Conditions -->
+        <div class="flex items-center">
+            <input type="checkbox" id="terms_conditions" name="terms_conditions" required 
+                class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 shadow-sm">
+            <label for="terms_conditions" class="ml-2 text-sm text-gray-600">
+                I agree to the <a class="text-indigo-600 hover:text-indigo-700 font-semibold">Terms and Conditions</a>
+            </label>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="">
+            <button type="submit" class="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-300">
+                Sign Up
+            </button>
+        </div>
+    </form>
+
+    <!-- Login Link -->
+    <div class="text-xl flex justify-center mt-3">
+        <a href="{% url 'login' %}" class="text-indigo-600 font-semibold hover:bg-indigo-100 py-2 px-4 rounded-md">
+            <span class="text-xl font-light">Already have an account? <span class="text-indigo-800">Log In.</span></span>
+        </a>
+    </div>
+</div>
+{% endblock %}

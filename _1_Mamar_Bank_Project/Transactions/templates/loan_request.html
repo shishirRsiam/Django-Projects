@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %} Loan Request {% endblock %}
+
+{% block content %}
+    <div class="container mx-auto p-6 max-w-6xl">
+        <!-- Loan Request Section -->
+        <div class="bg-gradient-to-r from-blue-500 to-teal-500 text-white shadow-lg rounded-lg p-8 mb-8">
+            <h1 class="text-4xl font-bold">Loan Request</h1>
+            <p class="text-lg mt-2">Please review loan request details below.</p>
+        </div>
+
+    <!-- Loan Information Section -->
+    <div class="bg-white shadow-lg rounded-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b-2 pb-2">All Loan Requests</h2>
+        {% if loan_request %}
+            <!-- Table to display loan requests -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full border-collapse border border-gray-300 text-left text-gray-800">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">User</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Requested Amount</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Loan Priority</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Loan Purpose</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Repayment Frequency</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Requested On</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Action</th> <!-- New column for action buttons -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for loan in loan_request %}
+                            <tr class="hover:bg-gray-50">
+                                <td class="border border-gray-300 px-4 py-2">{{ loan.user.first_name }} {{ loan.user.last_name }}</td>
+                                <td class="border border-gray-300 px-4 py-2">${{ loan.amount }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ loan.priority }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ loan.purpose }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ loan.repayment_frequency }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ loan.created_at|date:"d M Y" }}</td>
+                                <td class="flex border border-gray-300 px-4 py-2">
+                                    <!-- Approve and Reject buttons -->
+                                    <form action="{% url 'approve_loan' loan.id %}" method="POST" class="inline-block">
+                                        {% csrf_token %}
+                                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">✔</button>
+                                    </form>
+                                    <!-- <form action="{% url 'reject_loan' %}" method="POST" class="inline-block ml-2">
+                                        {% csrf_token %}
+                                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">✖</button>
+                                    </form> -->
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-gray-500 mt-4">No loan requests found.</p>
+        {% endif %}
+    </div>
+        <!-- Loan Action Section -->
+        <!-- <div class="bg-white shadow-lg rounded-lg p-6 mt-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b-2 pb-2">Action on Loan Request</h2>
+            <form action="{% url 'home' %}" method="POST">
+                {% csrf_token %}
+                <div class="flex justify-between items-center mb-4">
+                    <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Approve Loan</button>
+                    <a href="{% url 'reject_loan' %}" class="text-red-500 hover:underline">Reject Loan</a>
+                </div>
+            </form>
+        </div> -->
+    </div>
+{% endblock %}

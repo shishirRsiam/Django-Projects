@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Mamar Bank</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: linear-gradient(135deg, hsl(210, 33%, 6%), #005bb5);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      color: #fff;
+    }
+    .header {
+      text-align: center;
+      padding-bottom: 20px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    .header h1 {
+      font-size: 32px;
+      font-weight: bold;
+      margin: 0;
+      color: #ffde59;
+    }
+    .sub-header {
+      font-size: 16px;
+      font-weight: 500;
+      margin-top: 5px;
+    }
+    .body {
+      margin-top: 20px;
+      line-height: 1.8;
+    }
+    .highlight {
+      color: #ffde59;
+      font-weight: bold;
+    }
+    .button {
+      display: inline-block;
+      margin: 20px auto;
+      padding: 12px 24px;
+      font-size: 16px;
+      color: #fff;
+      background: #ffde59;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: bold;
+      transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+    }
+    .button:hover {
+      background: #ffd42a;
+      color: #000;
+    }
+    .info-box {
+      margin: 20px 0;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .footer {
+      text-align: center;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 30px;
+    }
+    .footer a {
+      color: #ffde59;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header Section -->
+    <div class="header">
+      <h1>Welcome to Mamar Bank</h1>
+      <p class="sub-header">Your trusted partner in financial growth</p>
+    </div>
+
+    <!-- Body Section -->
+    <div class="body">
+      <p>Dear <strong>{{ user.first_name }} {{ user.last_name }}</strong>,</p>
+      <p>
+        We're thrilled to welcome you to <span class="highlight">Mamar Bank</span>! Your account number is <strong>{{ user.account.account_no }}</strong>. 
+        With us, you can enjoy secure, easy, and reliable financial services.
+      </p>
+
+      <div class="info-box">
+        <h3>Your Account at a Glance:</h3>
+        <ul>
+          <li><strong>Account Number:</strong> {{ user.account.account_no }}</li>
+          <li><strong>Account Type:</strong> {{ user.account.account_type }}</li>
+          <li><strong>Available Balance:</strong> ${{ user.account.balance }}</li>
+        </ul>
+      </div>
+
+      <p>
+        Our services include:<br>
+        - Instant money transfers<br>
+        - Savings account benefits with high returns<br>
+        - Easy loan approvals<br>
+        - 24/7 customer support
+      </p>
+      <p>Explore your account and take control of your financial future today!</p>
+
+      <p style="text-align: center;">
+        <a href="https://mamarbank.pythonanywhere.com/profile/" class="button">Explore Your Account</a>
+      </p>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+      <p>&copy; 2024 Mamar Bank. All rights reserved.</p>
+      <p>
+        <a href="#">Privacy Policy</a> | 
+        <a href="#">Terms of Service</a>
+      </p>
+      <p>Need assistance? Contact us at <a href="mailto:your.mamarbank@gmail.com">your.mamarbank@gmail.com</a></p>
+    </div>
+  </div>
+</body>
+</html>

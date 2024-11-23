@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex flex-col lg:flex-row lg:space-x-8 p-8">
+    <!-- Hero Section: Welcome to Mamar Bank -->
+    <section class="flex-1 bg-gradient-to-r from-blue-500 to-teal-500 text-white p-8 text-center rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold">Welcome to Mamar Bank</h1>
+        <p class="mt-4">Your trusted partner in financial services, always here to empower your financial journey.</p>
+        <a href="{% url 'loan' %}" class="inline-block mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded transition duration-300">
+            Apply for a Loan
+        </a>
+        <ul class="mt-6 text-left text-xl space-y-2">
+            <li>✔ Personal Loans</li>
+            <li>✔ Home Loans</li>
+            <li>✔ Business Loans</li>
+            <li>✔ Education Loans</li>
+        </ul>
+    </section>
+
+    <!-- Features Section: Why Choose Mamar Bank -->
+    <section class="flex-1 bg-gray-50 p-8 rounded-lg shadow-lg text-center">
+        <h2 class="text-2xl font-semibold text-indigo-700">Why Choose Mamar Bank?</h2>
+        <p class="mt-4 text-gray-600">Our services are designed to offer maximum convenience, security, and customer satisfaction.</p>
+        <div class="mt-8 space-y-4">
+            <p>🌟 <strong>24/7 Customer Support</strong>: Always here to help.</p>
+            <p>🔒 <strong>Advanced Security</strong>: Cutting-edge protection for your funds.</p>
+            <p>⚡ <strong>Easy Transactions</strong>: Simplified online banking.</p>
+            <p>📈 <strong>Growth Opportunities</strong>: Earn with our high-interest deposit plans.</p>
+            <p>🌍 <strong>Global Access</strong>: Bank from anywhere, anytime.</p>
+        </div>
+    </section>
+
+    <!-- Services Section: Our Premium Services -->
+    <section class="flex-1 bg-white p-8 rounded-lg shadow-lg text-center">
+        <h2 class="text-2xl font-semibold text-indigo-700">Our Premium Services</h2>
+        <ul class="mt-4 space-y-4 text-left">
+            <li>💳 <strong>Loan Services</strong>: Competitive rates and fast approvals.</li>
+            <li>🏦 <strong>Deposit Services</strong>: High-yield savings accounts.</li>
+            <li>📂 <strong>Account Services</strong>: Manage accounts easily online.</li>
+            <li>💰 <strong>Investment Services</strong>: Secure, high-return opportunities.</li>
+            <li>📱 <strong>Mobile Banking</strong>: All services at your fingertips.</li>
+            <li>🚀 <strong>Startup Assistance</strong>: Tailored loans for new businesses.</li>
+        </ul>
+        <a href="{% url 'home' %}" class="inline-block mt-6 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded transition duration-300">
+            Explore All Services
+        </a>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Login | Mamar Bank{% endblock %}
+
+{% block content %}
+    <div class="bg-white shadow-lg rounded-3xl max-w-2xl w-full p-8 transform transition-all">
+        <h2 class="text-4xl font-semibold text-indigo-800 text-center mb-6">Welcome Back to Mamar Bank</h2>
+
+        <!-- Display error messages if any -->
+        <div class="text-red-600 text-center mb-4">
+            <p>{{ error_msg }}</p>
+        </div>
+        {% if success_msg %}
+            <div class="text-green-600 text-center mb-4">
+                <p>{{ success_msg }}</p>
+            </div>
+        {% endif %}
+
+        <!-- Login Form -->
+        <form method="POST" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                <input type="text" id="username" name="username" required 
+                    placeholder="Enter your email or username" 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-gray-50 shadow-sm transition-all ease-in-out hover:border-indigo-500">
+            </div>
+
+            <!-- Password -->
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="password" name="password" required 
+                    placeholder="Enter your password" 
+                    class="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-gray-50 shadow-sm transition-all ease-in-out hover:border-indigo-500">
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit" class="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-300">
+                    Log In
+                </button>
+            </div>
+        </form>
+
+        <!-- Links for password reset and signup -->
+        <div class="mt-8 text-center space-y-4">
+            <div class="text-sm">
+                <a href="{% url 'password_reset' %}" class="text-indigo-600 font-semibold hover:bg-indigo-100 py-2 px-4 rounded-md transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none">
+                    <span class="font-light">Forgot your password?</span>
+                </a>
+            </div>
+            <div class="text-xl">
+                <a href="{% url 'sign_up' %}" class="text-indigo-600 font-semibold hover:bg-indigo-100 py-2 px-4 rounded-md">
+                    <span class="text-xl font-light">Don't have an account? <span class="text-indigo-800">Sign Up.</span></span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

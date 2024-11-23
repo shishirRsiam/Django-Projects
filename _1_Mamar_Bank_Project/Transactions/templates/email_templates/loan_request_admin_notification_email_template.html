@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Loan Request Received</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: linear-gradient(135deg, #d14710, #0fce58);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #fff;
+        }
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+            color: #fff;
+        }
+        .sub-header {
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+        .body {
+            margin-top: 20px;
+            line-height: 1.8;
+        }
+        .highlight {
+            color: #ffde59;
+            font-weight: bold;
+        }
+        .info-box {
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 30px;
+        }
+        .footer a {
+            color: #ffde59;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .button {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 12px 24px;
+            font-size: 16px;
+            color: #312d2d;
+            background: #ffde59;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+        .button:hover {
+            background: #ffd42a;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>New Loan Request Received</h1>
+            <p class="sub-header">A new loan request has been submitted for review.</p>
+        </div>
+
+        <!-- Body Section -->
+        <div class="body">
+            <p>Dear <strong>Admin</strong>,</p>
+            <p>
+                We are pleased to inform you that a new loan request has been received. Below are the details of the loan request:
+            </p>
+
+            <div class="info-box">
+                <h3>Loan Request Details:</h3>
+                <ul>
+                    <li><strong>Applicant Name:</strong> {{ applicant.first_name }} {{ applicant.last_name }}</li>
+                    <li><strong>Applicant Email Address:</strong> {{ applicant.email }}</li>
+                    <li><strong>Applicant Account No:</strong> {{ applicant.account.account_no }}</li>
+                    <li><strong>Requested Loan Amount:</strong> ${{ loan.amount }}</li>
+                    <li><strong>Loan Purpose:</strong> {{ loan.purpose }}</li>
+                    <li><strong>Loan Priority:</strong> {{ loan.priority }}</li>
+                    <li><strong>Repayment Frequency:</strong> {{ loan.repayment_frequency }}</li>
+                    <li><strong>Submission Date:</strong> {{ loan.created_at|date:"d M Y - h:i:s A" }}</li>
+                </ul>
+            </div>
+
+            <p>
+                Please review the loan application and take necessary action.
+                You can access the loan management system to approve or reject the loan request.
+            </p>
+
+            <p style="text-align: center;">
+                <a href="https://mamarbank.pythonanywhere.com/loan/request/" class="button">Review Loan Request</a>
+            </p>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="footer">
+            <p>&copy; 2024 Mamar Bank. All rights reserved.</p>
+            <p>
+                <a href="#">Privacy Policy</a> | 
+                <a href="#">Terms of Service</a>
+            </p>
+            <p>Need assistance? Contact us at <a href="mailto:your.mamarbank@gmail.com">your.mamarbank@gmail.com</a></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ request.user.first_name }} Profile {% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6 max-w-6xl">
+    <!-- Welcome Section -->
+    <div class="bg-gradient-to-r from-blue-500 to-teal-500 text-white shadow-lg rounded-lg p-8 mb-8">
+        <h1 class="text-4xl font-bold">Hello, {{ user.first_name }} {{ user.last_name }}!</h1>
+        <p class="text-lg mt-2">Welcome back to your Mamar Bank profile.</p>
+    </div>
+
+    <!-- Profile Info and Bank Account Section -->
+    <div class="grid md:grid-cols-2 gap-8">
+        
+        <!-- Account Information Section -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b-2 pb-2">Account Information</h2>
+            <ul class="list-none mt-4 space-y-2">
+                <li class="flex justify-between"><strong class="font-semibold text-gray-600">Username:</strong> <span>{{ user.username }}</span></li>
+                <li class="flex justify-between"><strong class="font-semibold text-gray-600">Full Name:</strong> <span>{{ user.first_name }} {{ user.last_name }}</span></li>
+                <li class="flex justify-between"><strong class="font-semibold text-gray-600">Email:</strong> <span>{{ user.email }}</span></li>
+                <li class="flex justify-between"><strong class="font-semibold text-gray-600">Joined On:</strong> <span>{{ user.date_joined }}</span></li>
+            </ul>
+            <div class="flex justify-between">
+                <a href="{% url 'edit_profile' %}" class="text-blue-500 hover:underline mt-4 inline-block">Edit Profile Information</a>
+                <a href="{% url 'change_password' %}" class="text-blue-500 hover:underline mt-4 inline-block">Change Password</a>
+            </div>    
+        </div>
+        
+        <!-- Bank Account Section -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b-2 pb-2">Bank Accounts</h2>
+            {% if user.account %}
+                <ul class="list-none mt-4 space-y-2">
+                    <li class="flex justify-between"><strong class="font-semibold text-gray-600">Account Number:</strong> <span>{{ user.account.account_no }}</span></li>
+                    <li class="flex justify-between"><strong class="font-semibold text-gray-600">Last Balance:</strong> <span>${{ user.account.balance }}</span></li>
+                    <li class="flex justify-between"><strong class="font-semibold text-gray-600">Account Type:</strong> <span>{{ user.account.account_type }}</span></li>
+                    <li class="flex justify-between"><strong class="font-semibold text-gray-600">Total Transactions:</strong> <span>{{ user.transactions.count }}</span></li>
+                </ul>
+            {% else %}
+                <p class="text-gray-500 mt-4">No bank account linked yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Recent Transactions Section -->
+    <div class="bg-white shadow-lg rounded-lg p-6 mt-8">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b-2 pb-2">Recent Transactions</h2>
+        {% if transactions %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full border-collapse border border-gray-300 text-left text-gray-800">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Time</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Type</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Transaction ID</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Amount</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Account Balance</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaction in transactions %}
+                            <tr class="hover:bg-gray-50">
+                                <td class="border border-gray-300 px-4 py-2">{{ transaction.created_at|date:"d M Y - h:i:s A" }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ transaction.transaction_type }}</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    {% if transaction.after_transaction_balance %}
+                                        {{ transaction.transaction_id }}
+                                    {% endif %}
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2">${{ transaction.amount }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{% if transaction.after_transaction_balance %}${{ transaction.after_transaction_balance }}
+                                    
+                                    {% endif %}
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    {% if transaction.status %}
+                                        <span class="text-green-600 font-semibold">
+                                            {% if transaction.transaction_type == 'Loan' %}
+                                                Approved
+                                            {% else %}
+                                                Success
+                                            {% endif %}
+                                        </span>
+                                    {% else %}
+                                        <span class="text-red-600 font-semibold">Pending</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-gray-500 mt-4">No recent transactions found.</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %} Send Money {% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6 max-w-6xl">
+    <!-- Send Money Form Section -->
+    <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg rounded-lg p-8 mb-8">
+        <h1 class="text-4xl font-bold">Send Money</h1>
+        <p class="text-lg mt-2">Enter the recipient's details, the amount you'd like to send, and an optional note.</p>
+    </div>
+
+    <!-- Send Money Form -->
+    <div class="bg-white shadow-lg rounded-lg p-6">
+        {% if error_msg %}
+            <div class="text-red-600 text-center text-xl">
+                <p>{{ error_msg }}</p>
+            </div>
+        {% endif %}
+        <form method="POST" class="space-y-8">
+            {% csrf_token %}
+
+            <!-- Recipient -->
+            <div class="form-group">
+                <label for="recipient" class="block text-gray-800 font-medium text-xl">Recipient</label>
+                <input type="text" name="recipient" id="recipient" class="w-full px-6 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-400 transition duration-300 text-lg" value="{{ request.POST.recipient }}" placeholder="Enter recipient Mamar Bank Account No" required>
+            </div>
+
+            <!-- Amount -->
+            <div class="form-group">
+                <label for="amount" class="block text-gray-800 font-medium text-xl">Amount</label>
+                <input type="number" name="amount" id="amount" class="w-full px-6 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-400 transition duration-300 text-lg" value="{{ request.POST.amount }}" step="0.01" required>
+            </div>
+
+            <!-- Description (Optional) -->
+            <div class="form-group">
+                <label for="description" class="block text-gray-800 font-medium text-xl">Note (Optional)</label>
+                <textarea name="description" id="description" class="w-full px-6 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-400 transition duration-300 text-lg">{{ request.POST.description }}</textarea>
+            </div>
+
+            <button type="submit" class="w-full py-3 px-6 bg-pink-500 text-white font-semibold rounded-lg hover:bg-pink-600 transition duration-300 transform hover:scale-105 text-xl">
+                Send Money
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

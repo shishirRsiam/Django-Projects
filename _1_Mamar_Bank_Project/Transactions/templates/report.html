@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %} Transaction Report {% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6 max-w-6xl">
+    <!-- Report Header Section -->
+    <div class="bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-lg rounded-lg p-8 mb-8">
+        <h1 class="text-4xl font-bold">Transaction Report</h1>
+        <p class="text-lg mt-2">Here is a detailed overview of your all transactions.</p>
+    </div>
+
+    <!-- Account Summary Section -->
+    <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b-2 pb-2">Account Summary</h2>
+        {% if user.account %}
+            <ul class="list-none mt-4 space-y-2">
+                <li class="flex justify-between"><strong class="font-semibold text-gray-600">Account Number:</strong> <span>{{ user.account.account_no }}</span></li>
+                <li class="flex justify-between"><strong class="font-semibold text-gray-600">Current Balance:</strong> <span>${{ user.account.balance }}</span></li>
+                <li class="flex justify-between"><strong class="font-semibold text-gray-600">Account Type:</strong> <span>{{ user.account.account_type }}</span></li>
+                <li class="flex justify-between"><strong class="font-semibold text-gray-600">Total Transactions:</strong> <span>{{ transactions|length }}</span></li>
+            </ul>
+        {% else %}
+            <p class="text-gray-500 mt-4">No account information available.</p>
+        {% endif %}
+    </div>
+
+    <div class="flex flex-col items-center space-y-6">
+        <!-- Date Filter Inputs -->
+        <form method="POST"class="flex flex-wrap items-center space-x-4">
+            {% csrf_token %}
+            <!-- Start Date Input -->
+            <div class="flex flex-col mb-7">
+                <label for="start_date" class="text-gray-700 font-medium mb-1">From:</label>
+                <input type="date" name="start_date" id="start_date" required value="{{ request.POST.start_date  }}"
+                    class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <!-- End Date Input -->
+            <div class="flex flex-col mb-7">
+                <label for="end_date" class="text-gray-700 font-medium mb-1">To:</label>
+                <input type="date" name="end_date" id="end_date" required value="{{ request.POST.end_date  }}"
+                    class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <!-- Filter Button -->
+            <div class=" md:mt-0">
+                <button type="submit"
+                    class="bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg hover:bg-gray-800 focus:ring focus:ring-gray-300">
+                    Filter
+                </button>
+            </div>
+        </form>
+    </div>
+    
+
+    <!-- Transactions Report Section -->
+    <div class="bg-white shadow-lg rounded-lg p-6">
+        <div class="flex justify-between items-center border-b-2 pb-2 mb-4">
+            <h2 class="text-2xl font-semibold text-gray-800">Transaction Details</h2>
+            <div class="space-x-5 mb-2 flex items-center">
+                
+                
+                <!-- Download Report Button -->
+                <!-- <a href="{% url 'download_report' %}" 
+                   class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600">
+                   Download Report
+                </a> -->
+                
+                <!-- Send as Email Button -->
+                <!-- <a href="{% url 'send_report_email' %}" 
+                   class="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600">
+                   Send as Email
+                </a> -->
+            </div>
+        </div>
+        
+              
+        {% if transactions %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full border-collapse border border-gray-300 text-left text-gray-800">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Date</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Type</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Transaction ID</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Amount</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Balance After</th>
+                            <th class="border border-gray-300 px-4 py-2 font-medium">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaction in transactions %}
+                            <tr class="hover:bg-gray-50">
+                                <td class="border border-gray-300 px-4 py-2">{{ transaction.created_at|date:"d M Y - h:i:s A" }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ transaction.transaction_type }}</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    {% if transaction.after_transaction_balance %}
+                                        {{ transaction.transaction_id }}
+                                    {% endif %}
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2">${{ transaction.amount }}</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    {% if transaction.after_transaction_balance %}
+                                        ${{ transaction.after_transaction_balance }}
+                                    {% endif %}
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    {% if transaction.status %}
+                                        <span class="text-green-600 font-semibold">
+                                            {% if transaction.transaction_type == 'Loan' %}
+                                                Approved
+                                            {% else %}
+                                                Success
+                                            {% endif %}
+                                        </span>
+                                    {% else %}
+                                        <span class="text-red-600 font-semibold">Pending</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-gray-500 mt-4">No transactions found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
