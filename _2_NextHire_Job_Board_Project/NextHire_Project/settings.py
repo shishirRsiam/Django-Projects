@@ -48,10 +48,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'NextHire_Project.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': credentials.DATABASE_ENGINE,
+        'NAME': credentials.DATABASE_NAME,
+        'USER': credentials.DATABASE_USER,
+        'PASSWORD': credentials.DATABASE_PASSWORD, 
+        'HOST': credentials.DATABASE_HOST,
+        'PORT': credentials.DATABASE_PORT,
     }
 }
 
