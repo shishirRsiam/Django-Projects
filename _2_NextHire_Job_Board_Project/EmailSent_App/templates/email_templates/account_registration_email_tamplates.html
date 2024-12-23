@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activate Your HireHub Account</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: linear-gradient(135deg, hsl(210, 33%, 6%), #005bb5);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      color: #fff;
+    }
+    .header {
+      text-align: center;
+      padding-bottom: 20px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    .header h1 {
+      font-size: 32px;
+      font-weight: bold;
+      margin: 0;
+      color: #ffde59;
+    }
+    .sub-header {
+      font-size: 16px;
+      font-weight: 500;
+      margin-top: 5px;
+    }
+    .body {
+      margin-top: 20px;
+      line-height: 1.8;
+    }
+    .highlight {
+      color: #ffde59;
+      font-weight: bold;
+    }
+    .button {
+      display: inline-block;
+      margin: 20px auto;
+      padding: 12px 24px;
+      font-size: 16px;
+      background: linear-gradient(135deg, hsl(220, 4%, 14%), #114579);
+      color: #ffde59;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: bold;
+      transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+    }
+    .button:hover {
+
+      background: linear-gradient(135deg, hsl(220, 4%, 14%), #114579);
+      color: #ffde59;
+    }
+    .footer {
+      text-align: center;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 30px;
+    }
+    .footer a {
+      color: #ffde59;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header Section -->
+    <div class="header">
+      <h1>Welcome to HireHub</h1>
+      <p class="sub-header">Your gateway to exciting job opportunities!</p>
+    </div>
+
+    <!-- Body Section -->
+    <div class="body">
+      <p>Dear <strong>{{ user.first_name }} {{ user.last_name }}</strong>,</p>
+      <p>
+        We're excited to have you join HireHub! To get started, please activate your account by clicking the link below.
+      </p>
+
+      <p style="text-align: center;">
+        <a href="{{ activation_url }}" class="button">Activate Your Account</a>
+      </p>
+
+      <p>
+        Once activated, you will have access to your personalized dashboard where you can:<br>
+        <ul>
+            <li>Apply for jobs</li>
+            <li>Manage your profile</li>
+            <li>Connect with recruiters</li>
+            <li>Get job recommendations</li>
+            <li>Track your job applications</li>
+            <li>View your job search history</li>
+        </ul>
+      </p>
+
+      <p>We can't wait to see you take the next step in your career!</p>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+      <p>&copy; 2024 HireHub. All rights reserved.</p>
+      <p>
+        <a href="#">Privacy Policy</a> | 
+        <a href="#">Terms of Service</a>
+      </p>
+      <p>Need help? Contact us at <a href="mailto:support@HireHub.com">support@HireHub.com</a></p>
+    </div>
+  </div>
+</body>
+</html>
