@@ -20,12 +20,12 @@ class UserRegistrationApiView(APIView):
         
         user = User.objects.filter(username=username).first()
         if user:
-            response = get_username_or_email_already_exists_response('Username')
+            response = get_username_or_email_already_exists_response('username')
             return Response(data=response, status=400)
 
         user = User.objects.filter(email=email).first()
         if user:
-            response = get_username_or_email_already_exists_response('Email')
+            response = get_username_or_email_already_exists_response('email')
             return Response(data=response, status=400)
         
         user = User.objects.create_user(

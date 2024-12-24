@@ -18,7 +18,7 @@ def get_successful_login_response(user, token):
 def get_username_or_email_already_exists_response(name):
     response = {
         'status': False,
-        'title': f'{name} already exists!',
+        'title': f'This {name} already exists!',
         'message': f'Please use another {name}!',
     }
     return response
@@ -26,15 +26,15 @@ def get_username_or_email_already_exists_response(name):
 def get_successful_account_activation_response():
     response = {
         "status": True,
-        "title": "Activation Successful.",
-        "message": "Your account is now activated. You are now logged in.",
+        "title": "Account Activation Successful.",
+        "message": "Your account is now activated. You can now login.",
         }
     return response
 
 def get_failed_account_activation_response():
     response = {
         "status": False,
-        "title": "Activation Failed!",
+        "title": "Opps! Account Activation Failed!",
         "message": "Invalid activation link!",
         'is_already_activated': False,
     }
@@ -44,7 +44,7 @@ def get_already_account_activation_response():
     response = {
         "status": True,
         "title": "Account Already Activated.",
-        "message": "Your Account Is Already Activated. Please Login.",
+        "message": " Your Account Is Already Activated. Please Login.",
         'is_already_activated': True
     }   
     return response
@@ -52,7 +52,7 @@ def get_already_account_activation_response():
 def get_failed_login_response():
     response = {
         "status": False,
-        "title": "Login failed!",
+        "title": "Opps! Login failed!",
         "message": "Invalid credentials!",
     }
     return response
@@ -61,7 +61,7 @@ def get_failed_login_response():
 def get_successful_account_registration_response():
     response = {
         'status': True,
-        'title': 'User created successfully.',
+        'title': 'Wow! Account created successfully.',
         'message': 'Check your mail for Activate your account.',
     }
     return response
