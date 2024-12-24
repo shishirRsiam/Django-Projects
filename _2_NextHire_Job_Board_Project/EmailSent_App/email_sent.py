@@ -1,8 +1,4 @@
-from django.core.mail import EmailMessage, EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.conf import settings
-from django.contrib.auth.models import User
-from django.utils.html import strip_tags
+from .EmailSent_App_Import import *
 
 def email_sent(user, subject, html_message):
     print("(-)"*30)
@@ -30,5 +26,9 @@ def sent_account_registration_activation_email(user):
     template = 'email_templates/account_registration_email_tamplates.html'
     subject = f"Account Registration Confirmation, {user.first_name} {user.last_name}! Welcome to NextHire"
     
-    html_message = render_to_string(f'{template}', {'user': user, 'activation_url': "http://127.0.0.1:8000/activate/"})
+    token = default_token_generator.make_token(user)
+    uid = urlsafe_base64_encode(force_bytes(user.id))
+    activation_url = f"http://localhost:5173/accounts/activate/{uid}/{token}/"
+
+    html_message = render_to_string(f'{template}', {'user': user, 'activation_url': activation_url})
     email_sent(user, subject, html_message)

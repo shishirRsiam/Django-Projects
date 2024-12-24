@@ -1,4 +1,4 @@
-from .constImport import *
+from .Authentication_App_Import import *
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -20,20 +20,12 @@ class UserRegistrationApiView(APIView):
         
         user = User.objects.filter(username=username).first()
         if user:
-            response = {
-                'status': False,
-                'title': 'Username already exists',
-                'message': 'Please use another username',
-            }
+            response = get_username_or_email_already_exists_response('Username')
             return Response(data=response, status=400)
 
         user = User.objects.filter(email=email).first()
         if user:
-            response = {
-                'status': False,
-                'title': 'Email already exists',
-                'message': 'Please use another email',
-            }
+            response = get_username_or_email_already_exists_response('Email')
             return Response(data=response, status=400)
         
         user = User.objects.create_user(
@@ -45,52 +37,47 @@ class UserRegistrationApiView(APIView):
         user.save()
         user_profile.save()
 
-        user = User.objects.get(id=1)
-
         email_sent.sent_account_registration_activation_email(user)
 
-        response = {
-            'status': True,
-            'title': 'User created successfully',
-            'message': 'Check your mail for Activate your account',
-        }
+        response = get_successful_account_registration_response()
         return Response(data=response, status=201)
-        # return Response(data=serializer.errors, status=400)
-
 
 class LoginApiView(APIView):
     permission_classes = [AllowAny]
     
     def post(self, request):
-        # Extract username and password from request data
         username = request.data.get('username')
         password = request.data.get('password')
-
-        # Attempt to authenticate the user
-        print('(-)' * 20)
         print(username, password)
-        print('(-)' * 20)
         user = authenticate(username = username, password = password)
         if user:
-            login(request, user)   
-            return Response({
-                "status": True,
-                "title": "Login successful",
-                "message": "You are now logged in",
-                "access_token": 'access_token',
-                "refresh_token": str('refresh_token'),
-                'user': {
-                    "id": user.id,
-                    "username": user.username,
-                    "email": user.email,
-                    'role': user.userprofile.role,
-                    'company_name': user.userprofile.company_name,
-                    'name': user.first_name + ' ' + user.last_name,
-                },
-            }, status=200)
+            token, _ = Token.objects.get_or_create(user=user) 
+            response = get_successful_login_response(user, token)
+            return Response(response, status=200)
         
-        return Response({
-            "status": False,
-            "title": "Login failed",
-            "message": "Invalid credentials",
-        }, status=400)
+        response = get_failed_login_response()
+        return Response(response, status=400)
+    
+class ActivateAccountView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, idb64, token):
+        id = urlsafe_base64_decode(idb64).decode()
+        user = User.objects.get(id=id)
+        print('user', user)
+
+        if user and default_token_generator.check_token(user, token):
+            if user.is_active:
+                response = get_already_account_activation_response()
+                return Response(response, status=200)
+            
+            else:
+                user.is_active = True
+                user.save()
+                
+                response = get_successful_account_activation_response()
+                return Response(response, status=200)
+
+        response = get_failed_account_activation_response()
+        return Response(response, status=400)
+    
+    
