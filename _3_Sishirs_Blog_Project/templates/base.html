@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sishir's Blog - {% block title %} Home {% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        .cute-shadow {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-blue-100 to-white">
+    <nav class="bg-pink-200 p-3 rounded-b-lg cute-shadow">
+        <div class="container mx-auto flex justify-between items-center">
+          <a class="text-lg font-semibold text-pink-600 hover:text-pink-700" href="/">Sishir's Blog</a>
+          <button class="lg:hidden text-pink-500" type="button" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation" onclick="toggleNavbar()">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+          <div class="hidden lg:flex space-x-4" id="navbar-content">
+            <ul class="flex space-x-2">
+                <li><a href="{% url 'home' %}" class="flex items-center px-4 py-2 text-pink-600 font-semibold rounded-lg hover:bg-pink-100 hover:text-pink-700 transition-colors duration-200"><i class="fas fa-home mr-2"></i> Home</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'addpost' %}" class="flex items-center px-4 py-2 text-pink-600 font-semibold rounded-lg hover:bg-pink-100 hover:text-pink-700 transition-colors duration-200"><i class="fa-solid fa-square-plus mr-2"></i> Add Post</a></li>
+                <li>
+                    <a href="{% url 'profile' %}" class="flex items-center px-4 py-2 text-pink-600 font-semibold rounded-lg hover:bg-pink-100 hover:text-pink-700 transition-colors duration-200">
+                        <i class="fas fa-user mr-2"></i> Profile
+                    </a>
+                </li>
+                    <!-- <li><a href="{% url 'editprofile' %}" class="flex items-center px-4 py-2 text-pink-600 font-semibold rounded-lg hover:bg-pink-100 hover:text-pink-700 transition-colors duration-200"><i class="fa-solid fa-pen-to-square mr-2"></i> Edit Profile</a></li> -->
+                    <li><a href="{% url 'logout' %}" class="flex items-center px-4 py-2 text-pink-600 font-semibold rounded-lg hover:bg-pink-100 hover:text-pink-700 transition-colors duration-200"><i class="fas fa-right-from-bracket mr-2"></i> LogOut</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}" class="flex items-center px-4 py-2 text-pink-600 font-semibold rounded-lg hover:bg-pink-100 hover:text-pink-700 transition-colors duration-200"><i class="fas fa-sign-in-alt mr-2"></i> LogIn</a></li>
+                    <li><a href="{% url 'signup' %}" class="flex items-center px-4 py-2 text-pink-600 font-semibold rounded-lg hover:bg-pink-100 hover:text-pink-700 transition-colors duration-200"><i class="fas fa-user-plus mr-2"></i> SignUp</a></li>
+                {% endif %}
+            </ul>
+            <form class="flex items-center space-x-2">
+              <input class="border border-pink-300 rounded-full p-2 text-gray-700 focus:outline-none focus:border-pink-400" type="search" placeholder="Search" aria-label="Search">
+              <button class="px-4 py-2 bg-yellow-300 text-pink-600 rounded-full hover:bg-yellow-400 hover:text-pink-700 transition-all" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+    </nav>
+
+    {% block content %}
+    <div class="min-h-screen bg-gradient-to-b from-blue-100 to-white flex flex-col justify-center items-center">
+        {% if message %}
+            <div class="text-center mb-4 text-lg font-semibold text-blue-600">
+                {{ message }}
+            </div>
+        {% endif %}
+        <div class="text-center p-8 max-w-md mx-auto">
+            <h1 class="text-4xl font-bold text-blue-700 mb-4">Welcome to Our Fun-Tastic Homepage! 🎉</h1>
+            <p class="text-lg text-gray-700 mb-6">
+                We're excited to have you here! This is a place filled with joy, creativity, and a touch of whimsy. 
+                Dive in to discover more!
+            </p>
+            <div class="flex justify-center space-x-4 mb-8">
+                <span class="text-4xl">🌸</span>
+                <span class="text-4xl">✨</span>
+                <span class="text-4xl">🌈</span>
+            </div>
+            <a href="{% url 'home' %}" class="px-6 py-3 bg-blue-600 text-white rounded-full font-semibold shadow-md hover:bg-blue-700 transition-all duration-200">
+                Explore Now
+            </a>
+        </div>
+    </div>
+    <footer class="text-center text-gray-500 text-xs mb-5">
+        &copy;2024 Sishir's Blog. All rights reserved.
+    </footer>
+    {% endblock content %}
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %} Edit Post {% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-semibold text-gray-800 mb-6">Edit Post</h1>
+
+    <!-- Form for Editing a Post -->
+    <form method="POST" enctype="multipart/form-data" class="bg-white rounded-lg shadow-md p-6">
+        {% csrf_token %}
+        
+        <div class="mb-4">
+            <label for="title" class="block text-gray-700 font-semibold">Title</label>
+            <input type="text" id="title" name="title" required value="{{ post.title }}"
+                   class="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400" 
+                   placeholder="Enter your post title">
+        </div>
+
+        <div class="mb-4">
+            <label for="content" class="block text-gray-700 font-semibold">Content</label>
+            <textarea id="content" name="content" rows="6" required 
+                      class="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400" 
+                      placeholder="Write your post content here...">{{ post.content }}</textarea>
+        </div>
+
+        <div class="mb-4">
+            <label for="categories" class="block text-gray-700 font-semibold">
+                Categories 
+                <a href="#" class="text-blue-500 underline hover:text-blue-700" onclick="toggleModal(true)">Want to add a category?</a>
+            </label>
+            <select id="categories" name="categories" multiple 
+                    class="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400">
+                {% for category in Categories %}
+                    <option value="{{ category.id }}"
+                        {% if category in post.categories.all %} selected {% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <small class="text-gray-500">Hold down "Ctrl" or "Command" to select multiple categories.</small>
+        </div>
+        
+        <button type="submit" 
+                class="mt-6 px-6 py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700">
+            Update Post
+        </button>
+    </form>
+</div>
+
+<!-- Modal for Adding a New Category -->
+<div id="addCategoryModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md">
+        <h2 class="text-lg font-semibold text-gray-800">Add a New Category</h2>
+        <form method="POST" action="{% url 'addcategory' %}" class="mt-4">
+            {% csrf_token %}
+            <div>
+                <label for="newCategory" class="block text-sm font-medium text-gray-700">Category Name</label>
+                <input type="text" id="newCategory" name="category_name" 
+                       class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400" 
+                       placeholder="Enter the category name" required>
+            </div>
+            
+            <div class="mt-4">
+                <label for="categoryDescription" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea id="categoryDescription" name="category_description" rows="3"
+                          class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400"
+                          placeholder="Enter a brief description of the category"></textarea>
+            </div>
+            
+            <div class="mt-6 flex justify-end">
+                <button type="button" onclick="toggleModal(false)" class="px-4 py-2 bg-gray-300 rounded-md text-gray-800 hover:bg-gray-400">Cancel</button>
+                <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Add Category</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function toggleModal(show) {
+        const modal = document.getElementById('addCategoryModal');
+        modal.classList.toggle('hidden', !show);
+    }
+</script>
+{% endblock %}

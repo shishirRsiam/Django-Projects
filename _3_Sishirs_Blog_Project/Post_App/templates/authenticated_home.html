@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-6">
+    <div class="grid grid-cols-1 md:grid-cols-10 gap-8">
+        
+        <aside class="hidden md:col-span-2 md:block">
+        <!-- <aside class="col-span-1 md:col-span-2"> -->
+            <h2 class="text-2xl font-semibold text-gray-900 mb-3">Categories</h2>
+            <div class="bg-white shadow-md rounded-lg p-6 space-y-4">
+                <ul class="space-y-3">
+                    {% for categorie in categories %}
+                        <li>
+                            <a href="{% url 'viewpostbycategory' slug=categorie.slug %}" class="block p-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition duration-300 ease-in-out dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white">
+                                {{ categorie.name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </aside>
+
+        <p class="block md:hidden font-semibold text-center text-base font-medium text-blue-600 bg-blue-50 p-3 rounded-lg shadow-sm mt-4">
+            🌟 Switch to desktop mode to explore all features effortlessly!
+        </p>
+
+        <!-- Middle Column: Posts (6/10 of the width) -->
+        <main class="col-span-1 md:col-span-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">{{ title_text }}</h2>
+            {% for post in posts %}
+                <div class="w-full min-w-0 flex-1 space-y-4 bg-white p-4 rounded-lg shadow mb-4">
+                    <!-- Post Title -->
+                    <a href="{% url 'viewpost' url=post.slug_url %}" class="text-xl font-semibold text-gray-900 hover:underline dark:text-white">
+                        {{ post.title }}
+                    </a>
+                
+                    <!-- Post Content -->
+                    <div class="content text-gray-700 dark:text-gray-300 mt-2">
+                        {{ post.content|truncatewords:30 }}
+                    </div>
+        
+                    <!-- Post Category -->
+                    <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        <strong>Category:</strong>
+                        {% for categorie in post.categories.all %}
+                            <a href="{% url 'viewpostbycategory' slug=categorie.slug %}" class="text-blue-500 hover:underline dark:text-blue-400">
+                                {{ categorie.name }}{% if not forloop.last %}, {% endif %}
+                            </a>
+                        {% endfor %}
+                    </div>
+        
+                    <!-- Author, Views, and Likes -->
+                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-2">
+                        <span class="mr-4">
+                            <strong>Author:</strong> <span class="text-green-500 ml-1 text-sm font-semibold">{{ post.author.first_name }} {{ post.author.last_name }}</span>
+                                {% if post.author == request.user %}
+                                <span class="text-gray-600 ml-1">(You)</span>
+                            {% endif %}
+                        </span>
+                        <span class="mr-4">
+                            <svg class="inline-block h-4 w-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 20.8c-5.522 0-10-4.478-10-10S6.478.8 12 .8s10 4.478 10 10-4.478 10-10 10zm0-17a7 7 0 100 14 7 7 0 000-14z"/>
+                            </svg>
+                            {{ post.views }} views
+                        </span>
+                        <span>
+                            <svg class="inline-block h-4 w-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.1 4.5a5.93 5.93 0 00-4.2 1.6 6.06 6.06 0 000 8.6L12 21l4.1-4.3a6.06 6.06 0 000-8.6 5.93 5.93 0 00-4.2-1.6z"/>
+                            </svg>
+                            {{ post.like }} likes
+                        </span>
+                    </div>
+        
+                    <!-- Post Date -->
+                    <!-- <div class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                        <strong>Posted on:</strong> {{ post.created_at|date:"F j, Y, g:i a" }}
+                    </div> -->
+        
+                    <!-- Actions (Add to Favorites and Remove) -->
+                    <div class="flex items-center gap-4 mt-4">
+                        <!-- Add to Favorites Button -->
+                        <button type="button" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white">
+                            <svg class="me-1.5 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
+                            </svg>
+                            Like
+                        </button>
+                        <span class=" text-sm text-gray-400">•</span>
+                        <div class="flex">
+                            <svg class="h-5 w-5 text-purple-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M7 10h10v2H7v-2zm0 4h7v2H7v-2zm11-8h-1V4h-2v2H9V4H7v2H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V8a2 2 0 00-2-2zm0 14H6V10h12v10z"/>
+                            </svg>
+                            <p class="text-gray-500 ms-2">{{ post.created_at|date:"F j, Y, g:i a" }}</p>
+                        </div>
+                        <!-- Remove Button -->
+                        <!-- <button type="button" class="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500">
+                            <svg class="me-1.5 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6" />
+                            </svg>
+                            Remove
+                        </button> -->
+                    </div>
+
+                    <!-- Actions (Edit, Delete) - Displayed if post.author == request.user -->
+                    <!-- {% if post.author == request.user %}
+                        <div class="flex items-center gap-4 mt-4"> -->
+                            <!-- Edit Button -->
+                            <!-- <a href="{% url 'home' %}" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white">
+                                <svg class="me-1.5 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232a3 3 0 114.242 4.242l-9.192 9.192-3.678.918a1 1 0 01-1.214-1.214l.918-3.678 9.192-9.192z"/>
+                                </svg>
+                                Edit
+                            </a> -->
+        
+                            <!-- Delete Button -->
+                            <!-- <form method="POST" class="inline-flex items-center text-sm font-medium text-red-600 hover:text-red-900 hover:underline dark:text-red-500 dark:hover:text-white">
+                                {% csrf_token %}
+                                <button type="submit" class="flex items-center">
+                                    <svg class="me-1.5 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6" />
+                                    </svg>
+                                    Delete
+                                </button>
+                            </form>
+                        </div> -->
+                    <!-- {% endif %} -->
+                </div>
+            {% endfor %}
+            <div class="flex justify-between mx-14 mt-8 mb-14">
+                <div>
+                    {% if prev_page %}
+                        <a href="{% url 'home_post_by_page' prev_page %}" 
+                           class="bg-pink-200 text-pink-700 border border-pink-400 rounded-full font-semibold px-6 py-2 shadow-lg hover:bg-pink-300 hover:shadow-pink-500/50 transition duration-300 ease-in-out">
+                           &larr;  Prev
+                        </a>
+                    {% endif %}
+                </div>
+                <div>
+                    {% if next_page %}
+                        <a href="{% url 'home_post_by_page' next_page %}" 
+                           class="bg-pink-200 text-pink-700 border border-pink-400 rounded-full font-semibold px-6 py-2 shadow-lg hover:bg-pink-300 hover:shadow-pink-500/50 transition duration-300 ease-in-out">
+                           Next  &rarr;
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+        
+        
+        <!-- Left Column: All Categories (1/10 of the width) -->
+        <aside class="col-span-1 md:col-span-2">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-3">Popular Posts</h2>
+            <div class="space-y-4">
+                {% for post in top_post %}
+                    <div class="bg-white shadow-md rounded-lg p-4 hover:bg-gray-100 transition-all duration-200">
+                        <a href="{% url 'viewpost' url=post.slug_url %}" class="block">
+                            <h3 class="text-lg font-medium text-gray-800 hover:text-blue-500">{{ post.title }}</h3>
+                            <!-- <p class="text-sm text-gray-500">{{ post.author|default:"No excerpt available" }}</p> -->
+                            <p class="text-sm text-green-500">{{ post.author.first_name }} {{ post.author.last_name }}
+                                {% if post.author == request.user %}
+                                    <span class="text-gray-600 ml-1">(You)</span>
+                                {% endif %}
+                            </p>
+                            <div class="mt-2 flex items-center text-gray-600">
+                                <span class="text-sm">{{ post.views }} views</span>
+                                <span class="ml-2 text-sm text-gray-400">•</span>
+                                <span class="ml-2 text-sm">{{ post.created_at|date:"M d, Y" }}</span>
+                            </div>
+                        </a>
+                    </div>
+                {% empty %}
+                    <p class="text-gray-500">No popular posts available at the moment.</p>
+                {% endfor %}
+            </div>
+        </aside>
+        
+    </div>
+</div>
+{% endblock %}
