@@ -7,7 +7,7 @@ A comprehensive banking management system built with Django. This project allows
 ---
 ## Live Demo 🌐
 
-**Live Link**: [https://mamarbank.pythonanywhere.com/](https://mamarbank.pythonanywhere.com/) *(Valid until 22 Feb 2024)*
+**Live Link**: [https://mamarbank.pythonanywhere.com/](https://mamarbank.pythonanywhere.com/) *(Valid until 22 Feb 2025)*
 
 ---
 
