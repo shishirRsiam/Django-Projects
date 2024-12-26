@@ -1,4 +1,5 @@
 from .JobPost_App_Import import *
+from django.db import models
 
 
 class JobPost(models.Model):

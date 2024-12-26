@@ -4,6 +4,7 @@ from .Authentication_App_Import import *
 class UserViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [AllowAny]
 
 class UserRegistrationApiView(APIView):
     permission_classes = [AllowAny]
