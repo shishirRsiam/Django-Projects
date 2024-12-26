@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.first_name }} {{ user.last_name }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <!-- Welcome Section -->
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-semibold text-gray-800">Welcome, {{ user.first_name }} {{ user.last_name }}!</h1>
+        <p class="mt-2 text-gray-600">This is your profile page where you can view and manage your account details.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Account Information Section -->
+        <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Account Information</h2>
+            <p class="text-gray-800"><strong>First Name:</strong> {{ user.first_name }}</p>
+            <p class="text-gray-800"><strong>Last Name:</strong> {{ user.last_name }}</p>
+            <p class="text-gray-800"><strong>Username:</strong> {{ user.username }}</p>
+            <p class="text-gray-800"><strong>Email:</strong> {{ user.email }}</p>
+        </div>
+
+        <!-- Achievements Section -->
+        <div class="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-semibold text-yellow-700 mb-4">Achievements</h2>
+            <p class="text-gray-800">Highlighting your major accomplishments and milestones.</p>
+            <ul class="mt-4 space-y-2">
+                <li class="text-gray-700">Earned "Top Contributor" badge on Nov 10, 2024</li>
+                <li class="text-gray-700">Completed 1000 coding challenges</li>
+                <!-- Additional achievements can go here -->
+            </ul>
+        </div>
+        
+        <!-- Profile Settings Section -->
+        <div class="bg-gradient-to-r from-green-50 to-green-100 rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-semibold text-green-700 mb-4">Settings</h2>
+            <p class="text-gray-800">Manage your account settings and personalize your profile information.</p>
+            <a href="{% url 'editprofile' %}" class="inline-block mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Edit Profile</a>
+        </div>
+
+        <!-- Change Password Section -->
+        <div class="bg-gradient-to-r from-red-50 to-red-100 rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-semibold text-red-700 mb-4">Change Password</h2>
+            <p class="text-gray-800">Keep your account secure by updating your password regularly.</p>
+            <a href="{% url 'changepassword' %}" class="inline-block mt-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Change Password</a>
+        </div>
+
+        <!-- Activity Section -->
+        <div class="bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-semibold text-purple-700 mb-4">Recent Activity</h2>
+            <p class="text-gray-800">Check out your latest posts and interactions.</p>
+            <ul class="mt-4 space-y-2">
+                <!-- Example of a list item; replace with dynamic data -->
+                <li class="text-gray-700">Posted a new blog article titled "<a href="#" class="text-purple-600 hover:underline">Your Latest Blog Post</a>" on Nov 13, 2024</li>
+            </ul>
+        </div>
+        
+        
+        <!-- Notifications Section -->
+        <div class="bg-gradient-to-r from-teal-50 to-teal-100 rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-semibold text-teal-700 mb-4">Notifications</h2>
+            <p class="text-gray-800">Here are your latest notifications.</p>
+            <ul class="mt-4 space-y-2">
+                <li class="text-gray-700">New message from <strong>Admin</strong>: "Your profile has been updated!"</li>
+                <li class="text-gray-700">System update available: "New features are now live!"</li>
+                <li class="text-gray-700">Reminder: "Don't forget to change your password!"</li>
+                <!-- Add more notifications dynamically -->
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

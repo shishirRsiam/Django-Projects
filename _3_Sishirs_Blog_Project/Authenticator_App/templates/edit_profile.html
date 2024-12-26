@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Edit Profile
+{% endblock %}
+
+{% block content %} 
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-100 to-white">
+    <div class="bg-white shadow-md rounded-lg p-8 max-w-2xl w-full my-10">
+        <h1 class="text-4xl font-bold text-green-700 mb-4 text-center">Edit Your Profile 😊</h1>
+        <p class="text-lg text-gray-700 mb-6 text-center">
+            Update your personal details and stay connected with our community!
+        </p>
+        {% if error_msg %}
+            <div class="text-center">
+                <div class="text-red-600">{{ error_msg }}</div>
+            </div>
+        {% endif %}
+        <!-- Edit Profile Form -->
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Left Column: First Name and Last Name -->
+                <div>
+                    <label for="first_name" class="block text-gray-600 font-semibold mb-2">First Name</label>
+                    <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required 
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                </div>
+                <div>
+                    <label for="last_name" class="block text-gray-600 font-semibold mb-2">Last Name</label>
+                    <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required 
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                </div>
+                <!-- Right Column: Username and Email -->
+                <div>
+                    <label for="username" class="block text-gray-600 font-semibold mb-2">Username</label>
+                    <input type="text" id="username" name="username" value="{{ user.username }}" required 
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                </div>
+                <div>
+                    <label for="email" class="block text-gray-600 font-semibold mb-2">Email</label>
+                    <input type="email" id="email" name="email" value="{{ user.email }}" required 
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                </div>
+            </div>
+            <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-all duration-200 mt-4">
+                Save Changes
+            </button>
+        </form>
+        <!-- Extra Links -->
+        <div class="text-center mt-6">
+            <p class="text-gray-600">
+                Want to change your password? <a href="{% url 'changepassword' %}" class="text-green-500 font-semibold hover:underline">Change it here</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
