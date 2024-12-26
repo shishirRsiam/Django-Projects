@@ -8,8 +8,6 @@ class UserProfile(models.Model):
         ('Employer', 'Employer'),
     ]
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
-    company_name = models.CharField(max_length=100, blank=True, null=True)  
-    resume = models.FileField(upload_to='resumes/', blank=True, null=True)  
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

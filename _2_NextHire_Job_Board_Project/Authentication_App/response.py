@@ -3,8 +3,7 @@ def get_successful_login_response(user, token):
         "status": True,
         "title": "Login successful",
         "message": "You are now logged in",
-        "token": token.key,
-        "refresh_token": str('refresh_token'),
+        "token": f'Token {token.key}',
         'user': {
             "id": user.id,
             "username": user.username,
@@ -49,11 +48,19 @@ def get_already_account_activation_response():
     }   
     return response
 
-def get_failed_login_response():
+def get_failed_login_response(**kwargs):
     response = {
         "status": False,
         "title": "Opps! Login failed!",
-        "message": "Invalid credentials!",
+        "message": kwargs.get('message') or "Invalid credentials!",
+    }
+    return response
+
+def get_account_not_active_response(**kwargs):
+    response = {
+        "status": False,
+        "title": "Opps! Login failed!",
+        "message": "Account is not active! Check your email to activate your account.",
     }
     return response
 

@@ -12,8 +12,6 @@ class UserRegistrationApiView(APIView):
         first_name = request.data.get('first_name')
         last_name = request.data.get('last_name')
         role = request.data.get('role')
-        company_name = request.data.get('company_name')
-        resume = request.data.get('resume')
         username = request.data.get('username')
         password = request.data.get('password')
         email = request.data.get('email')
@@ -33,7 +31,7 @@ class UserRegistrationApiView(APIView):
             username=username, password=password,
             email=email, is_active=False,
         )
-        user_profile = UserProfile.objects.create(user=user, role=role, company_name=company_name, resume=resume)
+        user_profile = UserProfile.objects.create(user=user, role=role)
         user.save()
         user_profile.save()
 
@@ -49,8 +47,11 @@ class LoginApiView(APIView):
         username = request.data.get('username')
         password = request.data.get('password')
         print(username, password)
-        user = authenticate(username = username, password = password)
+        user = authenticate(username=username, password=password)
         if user:
+            if not user.is_active:
+                response = get_account_not_active_response()
+                return Response(response, status=400)
             token, _ = Token.objects.get_or_create(user=user) 
             response = get_successful_login_response(user, token)
             return Response(response, status=200)
