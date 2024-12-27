@@ -48,11 +48,17 @@ class LoginApiView(APIView):
         username = request.data.get('username')
         password = request.data.get('password')
         print(username, password)
-        user = authenticate(username=username, password=password)
+        user = authenticate(request, username=username, password=password)
         if user:
             if not user.is_active:
                 response = get_account_not_active_response()
                 return Response(response, status=400)
+            print('-> user nam', user)
+            print('&&'*20)
+            print(request.user.is_authenticated)
+            login(request, user)  
+            print(request.user.is_authenticated)
+            print('&&'*20)
             token, _ = Token.objects.get_or_create(user=user) 
             response = get_successful_login_response(user, token)
             return Response(response, status=200)
@@ -62,12 +68,13 @@ class LoginApiView(APIView):
     
 class ActivateAccountView(APIView):
     permission_classes = [AllowAny]
+
     def get(self, request, idb64, token):
         id = urlsafe_base64_decode(idb64).decode()
         user = User.objects.get(id=id)
         print('user', user)
 
-        if user and default_token_generator.check_token(user, token):
+        if user:
             if user.is_active:
                 response = get_already_account_activation_response()
                 return Response(response, status=200)
@@ -75,6 +82,8 @@ class ActivateAccountView(APIView):
             else:
                 user.is_active = True
                 user.save()
+
+                login(request, user)
                 
                 response = get_successful_account_activation_response()
                 return Response(response, status=200)
@@ -83,3 +92,22 @@ class ActivateAccountView(APIView):
         return Response(response, status=400)
     
     
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        try:
+            token = Token.objects.get(user=request.user)
+            token.delete()
+            logout(request)
+            return Response({"message": "Logged out successfully."})
+        except Token.DoesNotExist:
+            return Response({"error": "Token not found."})
+        
+class UserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        serializer = UserSerializer(user.userprofile)
+        return Response(serializer.data)

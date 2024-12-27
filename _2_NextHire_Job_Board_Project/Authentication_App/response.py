@@ -9,7 +9,6 @@ def get_successful_login_response(user, token):
             "username": user.username,
             "email": user.email,
             'role': user.userprofile.role,
-            'company_name': user.userprofile.company_name,
             'name': user.first_name + ' ' + user.last_name,
         }}
     return response

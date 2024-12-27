@@ -3,13 +3,14 @@ from django.db import models
 
 
 class JobPost(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=500) 
+    description = models.TextField() 
     company = models.CharField(max_length=200)
-    location = models.CharField(max_length=200)
-    salary = models.CharField(max_length=20)
+    location = models.CharField(max_length=200) 
+    salary = models.CharField(max_length=220) 
     type = models.CharField(max_length=50)
-    deadline = models.DateField()
+    deadline = models.DateField() 
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
