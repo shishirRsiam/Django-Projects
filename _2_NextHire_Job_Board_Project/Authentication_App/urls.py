@@ -11,6 +11,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/register/', UserRegistrationApiView.as_view(), name='register'),
     path('api/post/', JobPostApiViewSet.as_view(), name='post'),
+    path('api/post/<int:id>/', JobPostApiViewSet.as_view(), name='post_detail'),
     path('api/profile/', UserView.as_view(), name='peofile'),
     path('api/login/', LoginApiView.as_view(), name='login'),
     path('api/logout/', LogoutView.as_view(), name='logout'),
