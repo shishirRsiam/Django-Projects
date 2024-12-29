@@ -9,10 +9,12 @@ router.register('users', UserViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
+    # path('api/auth/', ),
     path('api/register/', UserRegistrationApiView.as_view(), name='register'),
     path('api/post/', JobPostApiViewSet.as_view(), name='post'),
     path('api/post/<int:id>/', JobPostApiViewSet.as_view(), name='post_detail'),
     path('api/profile/', UserView.as_view(), name='peofile'),
+    path('api/auth/', UserView.as_view(), name='auth'),
     path('api/login/', LoginApiView.as_view(), name='login'),
     path('api/logout/', LogoutView.as_view(), name='logout'),
     path('api/accounts/activate/<str:idb64>/<str:token>/', ActivateAccountView.as_view(), name='login'),

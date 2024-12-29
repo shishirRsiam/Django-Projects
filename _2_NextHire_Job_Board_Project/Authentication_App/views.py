@@ -111,3 +111,4 @@ class UserView(APIView):
         user = request.user
         serializer = UserSerializer(user.userprofile)
         return Response(serializer.data)
+    
