@@ -121,6 +121,7 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Dhaka'
 
+APPEND_SLASH = False
 USE_I18N = True
 
 USE_TZ = True
