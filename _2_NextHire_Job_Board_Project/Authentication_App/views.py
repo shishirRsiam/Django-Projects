@@ -1,5 +1,5 @@
 from .Authentication_App_Import import *
-
+from JobPost_App.serializers import *
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
@@ -109,6 +109,13 @@ class UserView(APIView):
 
     def post(self, request, *args, **kwargs):
         user = request.user
-        serializer = UserSerializer(user.userprofile)
-        return Response(serializer.data)
+        userSerializer = UserSerializer(user.userprofile)
+        AppliedSerializer = ApplySerializer(user.applied.all(), many=True)
+        print('userSerializer', userSerializer.data)
+        print('AppliedSerializer', AppliedSerializer.data)
+        response = {
+            "userData": userSerializer.data,
+            "appliedData": AppliedSerializer.data
+        }
+        return Response(response)
     

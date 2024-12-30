@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import JobPost
+from .models import JobPost, Applied
 from django.contrib.auth.models import User
 
 class JobPostSerializer(serializers.ModelSerializer):
@@ -7,3 +7,12 @@ class JobPostSerializer(serializers.ModelSerializer):
         model = JobPost
         fields = '__all__'
         read_only_fields = ('user',)
+
+
+class ApplySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Applied
+        fields = '__all__'
+        read_only_fields = ('user',)
+
+

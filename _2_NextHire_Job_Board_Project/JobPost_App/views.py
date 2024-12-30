@@ -2,6 +2,7 @@ from .JobPost_App_Import import *
 from .serializers import JobPostSerializer
 from . models import JobPost, Applied
 from rest_framework.views import APIView
+from .response import *
 
 class JobPostApiViewSet(APIView):
     def post(self, request):
@@ -36,25 +37,20 @@ class JobPostApiViewSet(APIView):
 class JobApplyApiView(APIView):
     def post(self, request, *args, **kwargs):
         job_post_id = kwargs.get('id')
-        can_apply = False
-        button_name = 'Login to Apply'
+
         print(')_'*30)
         print('->', request.user)
         print('->', job_post_id)
+        print('-> is_apply:', request.data['is_apply'])
         if job_post_id:
             try:
                 job_post = JobPost.objects.get(id=job_post_id)
-                if request.user.is_authenticated:
-                    if job_post.applied.filter(user=request.user).exists():
-                        button_name = 'Already Applied'
-                    else:
-                        can_apply = True
-                        button_name = 'Apply Now'
             except JobPost.DoesNotExist:
                 return Response({"error": "Job post not found."}, status=404)
-
-        response = {
-            'can_apply': can_apply,
-            'button_name': button_name
-        }
+            
+        if request.data['is_apply']:
+            print('-> data', request.data)
+            Applied.objects.create(user=request.user, job=job_post)
+            response = get_job_job_applied_response(request, job_post)
+        else: response = get_job_details_button_name(request, job_post)
         return Response(response)
