@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     
+    'Category_App',
     'JobPost_App',
     'EmailSent_App',
     'Applications_App',
