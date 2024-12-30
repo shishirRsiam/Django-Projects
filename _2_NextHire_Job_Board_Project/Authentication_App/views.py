@@ -47,18 +47,14 @@ class LoginApiView(APIView):
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
-        print(username, password)
+        print('->', username, password)
         user = authenticate(request, username=username, password=password)
         if user:
             if not user.is_active:
                 response = get_account_not_active_response()
                 return Response(response, status=400)
-            print('-> user nam', user)
-            print('&&'*20)
-            print(request.user.is_authenticated)
-            login(request, user)  
-            print(request.user.is_authenticated)
-            print('&&'*20)
+
+
             token, _ = Token.objects.get_or_create(user=user) 
             response = get_successful_login_response(user, token)
             return Response(response, status=200)
@@ -72,7 +68,6 @@ class ActivateAccountView(APIView):
     def get(self, request, idb64, token):
         id = urlsafe_base64_decode(idb64).decode()
         user = User.objects.get(id=id)
-        print('user', user)
 
         if user:
             if user.is_active:
@@ -109,10 +104,9 @@ class UserView(APIView):
 
     def post(self, request, *args, **kwargs):
         user = request.user
+        appliedJobs = user.applied.all().order_by('-id')
         userSerializer = UserSerializer(user.userprofile)
-        AppliedSerializer = ApplySerializer(user.applied.all(), many=True)
-        print('userSerializer', userSerializer.data)
-        print('AppliedSerializer', AppliedSerializer.data)
+        AppliedSerializer = ApplySerializer(appliedJobs, many=True)
         response = {
             "userData": userSerializer.data,
             "appliedData": AppliedSerializer.data
