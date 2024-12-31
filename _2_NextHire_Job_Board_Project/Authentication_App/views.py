@@ -119,7 +119,6 @@ class UserUpdateView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
         userprofile = request.user.userprofile
-        
         userprofile.bio = request.data.get('bio')
         userprofile.resume = request.data.get('resume')
         userprofile.skill.set(request.data.get('skill'))
