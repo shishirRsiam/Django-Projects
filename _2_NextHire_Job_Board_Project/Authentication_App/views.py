@@ -1,5 +1,6 @@
 from .Authentication_App_Import import *
 from JobPost_App.serializers import *
+from Category_App.serializers import *
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
@@ -113,3 +114,14 @@ class UserView(APIView):
         }
         return Response(response)
     
+
+class UserUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request, *args, **kwargs):
+        userprofile = request.user.userprofile
+        
+        userprofile.bio = request.data.get('bio')
+        userprofile.resume = request.data.get('resume')
+        userprofile.skill.set(request.data.get('skill'))
+        userprofile.save()
+        return Response({"message": "User updated successfully."})

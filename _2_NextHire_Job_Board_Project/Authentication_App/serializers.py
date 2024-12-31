@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from . import models
+from Category_App.serializers import CategorySerializer
 
 from django.contrib.auth.models import User
 
@@ -9,6 +10,7 @@ class SimpleUserSerializer(serializers.ModelSerializer):
         fields = ['username', 'email', 'first_name', 'last_name']
 
 class UserSerializer(serializers.ModelSerializer):
+    skill = CategorySerializer(many=True)
     user = SimpleUserSerializer()
     class Meta:
         model = models.UserProfile
