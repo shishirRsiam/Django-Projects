@@ -3,6 +3,7 @@ from .serializers import JobPostSerializer
 from . models import JobPost, Applied
 from rest_framework.views import APIView
 from .response import *
+from django.db.models import Q
 
 class JobPostApiViewSet(APIView):
     def post(self, request):
@@ -27,7 +28,25 @@ class JobPostApiViewSet(APIView):
             except JobPost.DoesNotExist:
                 return Response({"error": "Job post not found."}, status=404)
         
-        job_posts = JobPost.objects.all().order_by('-id')
+        job_posts = JobPost.objects.all()
+
+        search_by_applied = request.query_params.get('searchByApplied')
+        search_by_profile = request.query_params.get('searchByProfile')
+        # if search_by_applied:
+        #     job_posts = job_posts.filter(applied__user=request.user)
+
+        print('->::::', request.user)
+        print('->::::', search_by_applied, search_by_profile)
+
+        if search_by_applied:
+            if search_by_applied == "Applied":
+                job_posts = JobPost.objects.filter(applied__user=request.user)
+            elif search_by_applied == "Not Applied":
+                job_posts = job_posts.filter(applied__isnull=True)
+                print('-> not applied', request.user)
+        print('\n\n')
+
+        job_posts = job_posts.order_by('-id')
         serializer = JobPostSerializer(job_posts, many=True)
         return Response({
             "authenticated": request.user.is_authenticated,

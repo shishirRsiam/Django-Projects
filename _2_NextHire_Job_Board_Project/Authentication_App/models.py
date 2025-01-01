@@ -4,7 +4,7 @@ from Category_App.models import Category
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    skill = models.ManyToManyField(Category, null=True)
+    skill = models.ManyToManyField(Category)
     resume = models.CharField(max_length=400, null=1)
     bio = models.CharField(max_length=400, null=1)
 
