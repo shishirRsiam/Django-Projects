@@ -69,7 +69,6 @@ class ActivateAccountView(APIView):
     def get(self, request, idb64, token):
         id = urlsafe_base64_decode(idb64).decode()
         user = User.objects.get(id=id)
-
         if user:
             if user.is_active:
                 response = get_already_account_activation_response()

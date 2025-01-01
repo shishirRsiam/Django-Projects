@@ -19,5 +19,5 @@ urlpatterns = [
     path('api/auth/', UserView.as_view(), name='auth'),
     path('api/login/', LoginApiView.as_view(), name='login'),
     path('api/logout/', LogoutView.as_view(), name='logout'),
-    path('api/accounts/activate/<str:idb64>/<str:token>/', ActivateAccountView.as_view(), name='login'),
+    path('api/accounts/activate/<str:idb64>/<str:token>/', ActivateAccountView.as_view(), name='activate'),
 ]
